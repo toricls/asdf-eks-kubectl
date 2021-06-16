@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set \
+  -o pipefail \
+  -o errexit
+
+source ./bin/.env
+
+# Fetch all tag names, and get only second column. Then remove all unnecesary characters.
+versions=$(eval curl -s ${RELEASES_PATH} | grep -oE "version\": *\".{1,15}\"," | sed 's/version\": *\"v//;s/\",//')
+echo $versions

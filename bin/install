@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+
+set -e
+set -o pipefail
+
+source ./bin/.env
+
+ASDF_INSTALL_TYPE=${ASDF_INSTALL_TYPE:-version  }
+[ -n "$ASDF_INSTALL_VERSION" ] || (>&2 echo 'Missing ASDF_INSTALL_VERSION' && exit 1)
+[ -n "$ASDF_INSTALL_PATH" ] || (>&2 echo 'Missing ASDF_INSTALL_PATH' && exit 1)
+
+install_eks_kubectl() {
+  local install_type=$1
+  local version=$2
+  local install_path=$3
+  local bin_install_path="$install_path/bin"
+  local download_url="$(get_download_url $version)"
+
+  mkdir -p "${bin_install_path}"
+
+  local bin_path="${bin_install_path}/kubectl"
+  echo "Downloading Amazon EKS vended kubectl from ${download_url}"
+  local http_status_code=$(curl -s -o /dev/null -I -w "%{http_code}" "${download_url}")
+  if [ "${http_status_code}" = "404" ]; then
+    local platform="$(get_arch)"
+    local cpu_arch="$(get_cpu)"
+    local red='\033[0;31m'
+    echo -e "${red}Failed to download (404) - platform: ${platform}, cpu: ${cpu_arch}" 1>&2
+    echo -e "${red}See also the Amazon EKS documentation https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html" 1>&2
+    exit 1
+  fi
+  if curl -s "$download_url" -o "$bin_path"; then
+    chmod +x $bin_path
+  else
+    exit 1
+  fi
+}
+
+get_arch() {
+  uname | tr '[:upper:]' '[:lower:]'
+}
+
+get_cpu() {
+  local machine_hardware_name
+  machine_hardware_name="$(uname -m)"
+
+  case "$machine_hardware_name" in
+    'x86_64') local cpu_type="amd64";;
+    'powerpc64le' | 'ppc64le') local cpu_type="ppc64le";;    
+    'aarch64') local cpu_type="arm64";;
+    'armv7l') local cpu_type="arm";;
+    *) local cpu_type="$machine_hardware_name";;
+  esac
+
+  echo "$cpu_type"
+}
+
+get_download_url() {
+  local version="$1"
+  local version_info=$(curl -s "${RELEASES_PATH}" | jq '.versions[] | select(.version=="v${version}")')
+  local platform="$(get_arch)"
+  local date=$(echo ${version_info} | jq -r '.date')
+  echo "https://amazon-eks.s3.us-west-2.amazonaws.com/${version}/${date}/bin/${platform}/$(get_cpu)/kubectl"
+}
+
+install_eks_kubectl $ASDF_INSTALL_TYPE $ASDF_INSTALL_VERSION $ASDF_INSTALL_PATH
