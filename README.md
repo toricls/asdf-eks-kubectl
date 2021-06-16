@@ -8,6 +8,12 @@ Amazon EKS vended kubectl plugin for [asdf](https://github.com/asdf-vm/asdf) ver
 asdf plugin-add kubectl https://github.com/toricls/asdf-eks-kubectl.git
 ```
 
+If you'd like use both this plugin and [`asdf-kubectl`](https://github.com/asdf-community/asdf-kubectl) then install the plugin under a different name such as `eks-kubectl`.
+
+```
+asdf plugin-add eks-kubectl https://github.com/toricls/asdf-eks-kubectl.git
+```
+
 ## Prerequisites
 
 - jq
