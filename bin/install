@@ -57,9 +57,9 @@ get_cpu() {
 
 get_download_url() {
   local version="$1"
-  local version_info=$(curl -s "${RELEASES_PATH}" | jq '.versions[] | select(.version=="v${version}")')
+  local version_info=$(curl -s "${RELEASES_PATH}" | jq ".versions[] | select(.version==\"v${version}\")")
   local platform="$(get_arch)"
-  local date=$(echo ${version_info} | jq -r '.date')
+  local date=$(echo "${version_info}" | jq -r '.date')
   echo "https://amazon-eks.s3.us-west-2.amazonaws.com/${version}/${date}/bin/${platform}/$(get_cpu)/kubectl"
 }
 
