@@ -4,7 +4,7 @@ set \
   -o pipefail \
   -o errexit
 
-source ./bin/.env
+RELEASES_PATH=https://gist.githubusercontent.com/toricls/f08987628764aa1e497fb52bc15afaca/raw/
 
 # Fetch all tag names, and get only second column. Then remove all unnecesary characters.
 versions=$(eval curl -s ${RELEASES_PATH} | grep -oE "version\": *\".{1,15}\"," | sed 's/version\": *\"v//;s/\",//')
