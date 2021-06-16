@@ -1,18 +1,18 @@
 {
     "versions": [{
         "version": "v1.20.4",
-        "link": "https://amazon-eks.s3.us-west-2.amazonaws.com/1.20.4/2021-04-12/bin/${platform}/${cpu_arch}/kubectl"
+        "date": "2021-04-12"
     },{
         "version": "v1.19.6",
-        "link": "https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/${platform}/${cpu_arch}/kubectl"
+        "date": "2021-01-05"
     },{
         "version": "v1.18.9",
-        "link": "https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.9/2020-11-02/bin/${platform}/${cpu_arch}/kubectl"
+        "date": "2020-11-02"
     },{
         "version": "v1.17.12",
-        "link": "https://amazon-eks.s3.us-west-2.amazonaws.com/1.17.12/2020-11-02/bin/${platform}/${cpu_arch}/kubectl"
+        "date": "2020-11-02"
     },{
         "version": "v1.16.15",
-        "link": "https://amazon-eks.s3.us-west-2.amazonaws.com/1.16.15/2020-11-02/bin/${platform}/${cpu_arch}/kubectl"
+        "date": "2020-11-02"
     }]
 }
