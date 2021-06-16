@@ -1,0 +1,24 @@
+name: Publish
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Validate versions.json
+        run: cat ./versions.json | jq -r '.versions[]'
+      - name: Deploy
+        uses: exuanbo/actions-deploy-gist@v1
+        with:
+          token: ${{ secrets.TOKEN }}
+          gist_id: f08987628764aa1e497fb52bc15afaca
+          gist_file_name: versions.json
+          file_path: ./versions.json
