@@ -18,9 +18,27 @@ asdf plugin-add eks-kubectl https://github.com/toricls/asdf-eks-kubectl.git
 
 - jq
 
-## Use
+## Usage
 
-Check out the [asdf documentation](https://asdf-vm.com/#/core-manage-versions?id=install-version) for instructions on how to install and manage versions of Kubectl.
+List all available versions:
+
+```
+asdf list-all kubectl
+```
+
+Install and point specific EKS-vended kubectl version:
+
+```
+# Install
+asdf install kubectl 1.20.4
+
+# Set version
+asdf global kubectl 1.20.4
+```
+
+Use `eks-kubectl` instead of `kubectl` if you installed the plugin with different name such as `eks-kubectl`.
+
+See also the [asdf documentation](https://asdf-vm.com/#/core-manage-versions?id=install-version) for more instructions.
 
 ## Acknowledgement
 
